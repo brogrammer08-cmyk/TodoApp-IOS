@@ -25,6 +25,9 @@ class AppCoordinator: Coordinator {
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
         
-        print("AppCoordinator started - TodoListCoordinator coming next")
+        let todoListCoordinator = TodoListCoordinator(navigationController: navigationController, todoService: todoService)
+        childCoordinators.append(todoListCoordinator)
+        todoListCoordinator.start()
+        
     }
 }
