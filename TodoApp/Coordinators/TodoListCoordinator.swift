@@ -65,16 +65,37 @@ class TodoListCoordinator: Coordinator {
             self?.navigationController.popViewController(animated: true)
         }
         
-        detailsViewModel.onTodoUpdated = { [weak self] in
-            // Refresh the list
-            if let hostingVC = self?.navigationController.viewControllers.first as? UIHostingController<TodoListView> {
-                hostingVC.rootView.viewModel.loadTodos()
-            }
+        detailsViewModel.onTodoUpdated = {
+            // Post notification to refresh the list
+            NotificationCenter.default.post(name: .todosDidChange, object: nil)
+        }
+        
+        detailsViewModel.onEdit = { [weak self] todo in
+            self?.showEditScreen(for: todo)
         }
         
         let detailsView = TodoDetailsView(viewModel: detailsViewModel)
         let hostingController = UIHostingController(rootView: detailsView)
         navigationController.pushViewController(hostingController, animated: true)
+    }
+    
+    func showEditScreen(for todo: TodoItem) {
+        let editViewModel = EditTodoViewModel(todo: todo, todoService: todoService)
+        
+        editViewModel.onSave = { [weak self] updatedTodo in
+            self?.todoService.updateTodo(updatedTodo)
+            self?.navigationController.dismiss(animated: true)
+            // Refresh the list
+            NotificationCenter.default.post(name: .todosDidChange, object: nil)
+        }
+        
+        editViewModel.onCancel = { [weak self] in
+            self?.navigationController.dismiss(animated: true)
+        }
+        
+        let editView = EditTodoView(viewModel: editViewModel)
+        let hostingController = UIHostingController(rootView: editView)
+        navigationController.present(hostingController, animated: true)
     }
 }
 

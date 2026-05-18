@@ -14,7 +14,7 @@ class TodoDetailsViewModel: ObservableObject {
     
     var onTodoUpdated: (() -> Void)?
     var onDelete: (() -> Void)?
-    var onEdit: (() -> Void)?
+    var onEdit: ((TodoItem) -> Void)?
     
     init(todo: TodoItem, todoService: TodoServiceProtocol) {
         self.todo = todo
@@ -47,7 +47,7 @@ class TodoDetailsViewModel: ObservableObject {
     }
     
     func editTapped() {
-        onEdit?()
+        onEdit?(todo)
     }
     
     // Formatted strings for display

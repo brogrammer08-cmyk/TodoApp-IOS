@@ -30,6 +30,24 @@ class TodoListViewModel: ObservableObject {
     init(todoService: TodoServiceProtocol) {
         self.todoService = todoService
         loadTodos()
+        
+        // Listen for todo changes
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleTodosChange),
+            name: .todosDidChange,
+            object: nil
+        )
+    }
+
+    @objc private func handleTodosChange() {
+        DispatchQueue.main.async { [weak self] in
+            self?.loadTodos()
+        }
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     func loadTodos() {
@@ -61,19 +79,22 @@ class TodoListViewModel: ObservableObject {
     func toggleCompleted(for todo: TodoItem) {
         todoService.toggleCompleted(id: todo.id)
         loadTodos()
+        NotificationCenter.default.post(name: .todosDidChange, object: nil)
     }
-    
+
     func deleteTodo(at offsets: IndexSet) {
         let idsToDelete = offsets.map { todos[$0].id }
         for id in idsToDelete {
             todoService.deleteTodo(id: id)
         }
         loadTodos()
+        NotificationCenter.default.post(name: .todosDidChange, object: nil)
     }
-    
+
     func addTodo(_ todo: TodoItem) {
         todoService.addTodo(todo)
         loadTodos()
+        NotificationCenter.default.post(name: .todosDidChange, object: nil)
     }
     
     // - Navigation Actions
