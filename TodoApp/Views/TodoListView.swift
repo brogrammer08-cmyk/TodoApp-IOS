@@ -27,7 +27,9 @@ struct TodoListView: View {
         .navigationTitle("My Todos")
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                Button(action: {}) {
+                Button(action: {
+                    viewModel.addButtonTapped()
+                }) {
                     Image(systemName: "plus")
                 }
             }

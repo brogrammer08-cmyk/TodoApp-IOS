@@ -14,6 +14,9 @@ class TodoListViewModel: ObservableObject {
     
     private let todoService: TodoServiceProtocol
     
+    // Navigation closure
+    var onAddTodo: (() -> Void)?
+    
     enum SortOption {
         case dueDateAscending
         case dueDateDescending
@@ -28,7 +31,6 @@ class TodoListViewModel: ObservableObject {
     }
     
     func loadTodos() {
-        let fetchedTodos = todoService.fetchTodos()
         applySort()
     }
     
@@ -50,5 +52,11 @@ class TodoListViewModel: ObservableObject {
     func addTodo(_ todo: TodoItem) {
         todoService.addTodo(todo)
         loadTodos()
+    }
+    
+    // - Navigation Actions
+    
+    func addButtonTapped() {
+        onAddTodo?()
     }
 }
