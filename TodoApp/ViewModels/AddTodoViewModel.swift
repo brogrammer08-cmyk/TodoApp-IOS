@@ -50,6 +50,11 @@ class AddTodoViewModel: ObservableObject {
             reminderType: selectedReminderType
         )
         
+        // Schedule notification if reminder is set
+            if selectedReminderType != nil {
+                NotificationService.shared.scheduleNotification(for: newTodo)
+            }
+        
         onSave?(newTodo)
     }
     

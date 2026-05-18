@@ -64,6 +64,9 @@ class EditTodoViewModel: ObservableObject {
             createdAt: originalTodo.createdAt
         )
         
+        // Update notification (cancel old, schedule new)
+            NotificationService.shared.updateNotification(for: updatedTodo)
+        
         onSave?(updatedTodo)
     }
     

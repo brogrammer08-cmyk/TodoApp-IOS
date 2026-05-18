@@ -88,9 +88,6 @@ struct TodoListView: View {
                 }
             }
         }
-        .onAppear {
-            viewModel.onAddTodo = { }
-        }
     }
 }
 
