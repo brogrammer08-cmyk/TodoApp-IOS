@@ -13,7 +13,7 @@ struct TodoItem: Identifiable, Equatable {
     let todoDescription: String?
     let dueDate: Date
     var isCompleted: Bool
-    let reminderType: ReminderType?
+    var reminderType: ReminderType?
     let createdAt: Date
     
     init(

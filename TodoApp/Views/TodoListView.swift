@@ -44,6 +44,9 @@ struct TodoListView: View {
                                     .foregroundColor(.secondary)
                             }
                         }
+                        .onTapGesture {
+                            viewModel.todoSelected(todo)
+                        }
                     }
                     .onDelete { indexSet in
                         viewModel.deleteTodo(at: indexSet)

@@ -27,9 +27,14 @@ class TodoListCoordinator: Coordinator {
             self?.showAddTodoScreen()
         }
         
+        viewModel.onTodoSelected = { [weak self] todo in
+            self?.showTodoDetails(for: todo)
+        }
+        
         let todoListView = TodoListView(viewModel: viewModel)
         let hostingController = UIHostingController(rootView: todoListView)
         navigationController.pushViewController(hostingController, animated: true)
+        
     }
     
     func showAddTodoScreen() {
@@ -51,6 +56,25 @@ class TodoListCoordinator: Coordinator {
         let addViewController = AddTodoViewController(viewModel: addViewModel)
         let navController = UINavigationController(rootViewController: addViewController)
         self.navigationController.present(navController, animated: true)
+    }
+    
+    func showTodoDetails(for todo: TodoItem) {
+        let detailsViewModel = TodoDetailsViewModel(todo: todo, todoService: todoService)
+        
+        detailsViewModel.onDelete = { [weak self] in
+            self?.navigationController.popViewController(animated: true)
+        }
+        
+        detailsViewModel.onTodoUpdated = { [weak self] in
+            // Refresh the list
+            if let hostingVC = self?.navigationController.viewControllers.first as? UIHostingController<TodoListView> {
+                hostingVC.rootView.viewModel.loadTodos()
+            }
+        }
+        
+        let detailsView = TodoDetailsView(viewModel: detailsViewModel)
+        let hostingController = UIHostingController(rootView: detailsView)
+        navigationController.pushViewController(hostingController, animated: true)
     }
 }
 

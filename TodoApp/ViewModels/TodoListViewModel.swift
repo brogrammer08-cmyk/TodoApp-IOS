@@ -17,6 +17,8 @@ class TodoListViewModel: ObservableObject {
     // Navigation closure
     var onAddTodo: (() -> Void)?
     
+    var onTodoSelected: ((TodoItem) -> Void)?
+    
     enum SortOption {
         case dueDateAscending
         case dueDateDescending
@@ -78,6 +80,12 @@ class TodoListViewModel: ObservableObject {
     
     func addButtonTapped() {
         onAddTodo?()
+    }
+    
+
+
+    func todoSelected(_ todo: TodoItem) {
+        onTodoSelected?(todo)
     }
     
     
