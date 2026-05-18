@@ -69,6 +69,7 @@ class InMemoryTodoService: TodoServiceProtocol{
     }
         
     func deleteTodo(id: UUID) {
+        NotificationService.shared.cancelNotification(for: id)
         todos.removeAll { $0.id == id }
             }
         

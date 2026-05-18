@@ -25,6 +25,18 @@ class AppCoordinator: Coordinator {
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
         
-        print("AppCoordinator started - TodoListCoordinator coming next")
+        // Request notification permissions
+        NotificationService.shared.requestPermission { granted in
+            print("Notification permission granted: \(granted)")
+        }
+        
+        // Create and start TodoListCoordinator
+        let todoListCoordinator = TodoListCoordinator(
+            navigationController: navigationController,
+            todoService: todoService
+        )
+        childCoordinators.append(todoListCoordinator)
+        todoListCoordinator.start()
     }
+
 }
