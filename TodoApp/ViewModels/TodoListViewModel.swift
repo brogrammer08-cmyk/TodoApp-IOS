@@ -35,9 +35,25 @@ class TodoListViewModel: ObservableObject {
     }
     
     func applySort() {
-        // You will implement sorting logic here
-        // For now, just assign fetched todos
-        todos = todoService.fetchTodos()
+        let fetchedTodos = todoService.fetchTodos()
+            
+            switch currentSortOption {
+            case .dueDateAscending:
+                todos = fetchedTodos.sorted { $0.dueDate < $1.dueDate }
+            case .dueDateDescending:
+                todos = fetchedTodos.sorted { $0.dueDate > $1.dueDate }
+            case .recentlyCreated:
+                todos = fetchedTodos.sorted { $0.createdAt > $1.createdAt }
+            case .completedFirst:
+                todos = fetchedTodos.sorted { $0.isCompleted && !$1.isCompleted }
+            case .pendingFirst:
+                todos = fetchedTodos.sorted { !$0.isCompleted && $1.isCompleted }
+            }
+    }
+    
+    func changeSortOption(to option: SortOption) {
+        currentSortOption = option
+        applySort()
     }
     
     func toggleCompleted(for todo: TodoItem) {
@@ -63,4 +79,6 @@ class TodoListViewModel: ObservableObject {
     func addButtonTapped() {
         onAddTodo?()
     }
+    
+    
 }
