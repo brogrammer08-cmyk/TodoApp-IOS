@@ -46,7 +46,11 @@ class TodoListViewModel: ObservableObject {
     }
     
     func deleteTodo(at offsets: IndexSet) {
-        // You will implement delete logic here
+        let idsToDelete = offsets.map { todos[$0].id }
+        for id in idsToDelete {
+            todoService.deleteTodo(id: id)
+        }
+        loadTodos()
     }
     
     func addTodo(_ todo: TodoItem) {
