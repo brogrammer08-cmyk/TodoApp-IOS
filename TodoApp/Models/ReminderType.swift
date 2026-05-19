@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum ReminderType: CaseIterable {
+enum ReminderType: CaseIterable, Codable {
     case atTime
     case fiveMinutesBefore
     case fifteenMinutesBefore

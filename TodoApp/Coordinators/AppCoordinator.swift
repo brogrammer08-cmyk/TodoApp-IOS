@@ -18,7 +18,7 @@ class AppCoordinator: Coordinator {
     init(window: UIWindow){
         self.window = window
         self.navigationController = UINavigationController()
-        self.todoService = InMemoryTodoService()
+        self.todoService = PersistentTodoService()
     }
     
     func start() {
