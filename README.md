@@ -14,7 +14,6 @@ A production-style iOS To-Do application built with Swift, demonstrating the MVV
 - ✅ Local notifications with 5 reminder options (at time, 5min, 15min, 1 hour, 1 day before)
 - ✅ Sort todos by 5 criteria (due date ascending/descending, recently created, completed first, pending first)
 - ✅ Empty state with friendly message
-- ✅ Pull to refresh
 - ✅ Swipe to delete
 - ✅ Persistent storage with UserDefaults
 
